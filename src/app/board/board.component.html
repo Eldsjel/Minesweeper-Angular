@@ -1,0 +1,20 @@
+<p-card class="board-card" header="Minesweeper" subheader={{gameStatus}} [style]="{width: '500px', background: '#C0D5D4', padding: '5px'}">
+
+  <p-header>
+    <img src="assets/banner.png">
+  </p-header>
+
+  <div class="game-container">
+    <div class="grid-container">
+      <div class="grid-cell" *ngFor="let item of itemArray; let i = index"
+           (click)="clickTile(i)" [ngClass]="tileClickedStatus[i] ? 'grid-cell-clicked' : 'grid-cell'" (contextmenu)="markTile(i)" >
+        <img class="grid-image" src={{item}}>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <button pButton type="button" label="Start new game" class="ui-button-raised ui-button-danger" (click)="initBoard()"></button>
+  </p-footer>
+
+</p-card>
