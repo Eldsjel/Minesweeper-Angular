@@ -1,0 +1,32 @@
+<p-card class="board-card" header="Bunnysweeper" subheader="Find a safe way to the carrot!">
+
+  <p-header>
+    <img [src]="bannerStatus"> <!-- src="assets/bunnybanner.jpg">  todo: new banner, depending on game over, game won, or normal -->
+  </p-header>
+
+  <div class="game-container">
+    <img class="start-image" src="assets/rabbit.png">
+    <div>
+      <div class="grid-container">
+        <div class="grid-cell" *ngFor="let item of itemArray; let i = index"
+             (click)="clickTile(i)" (contextmenu)="markTile(i)"
+             [ngClass]="{ 'grid-cell': item == '', 'grid-cell-clickable': item == 'x', 'grid-cell-clicked': item != '' && item != 'x' }" >
+          <img class="grid-image" [src]="item == '' || item == clickableTag ? '' : item">
+        </div>
+      </div>
+      <img class="end-image" src="assets/carrot.png">
+    </div>
+
+  </div>
+
+  <p-footer>
+    <button pButton type="button" label="Start new game" class="ui-button-raised ui-button-success" (click)="initBoard()"></button>
+  </p-footer>
+
+</p-card>
+
+<nav>
+  <a routerLink="/">
+    <img src="assets/mine.ico" style="height: 35px">
+  </a>
+</nav>

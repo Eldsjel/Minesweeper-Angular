@@ -4,7 +4,6 @@
 }
 
 .game-container {
-  padding: 50px;
   display: inline-block;
 }
 
@@ -12,28 +11,34 @@
   display: grid;
   grid-template-columns: repeat(8, 40px);
   grid-gap: 1px;
+  margin: 50px 50px 0;  /* top | right&left | bottom*/
 }
 
 .grid-cell {
   height: 40px;
   border-radius: 2px;
-  background-color: dimgray;
+  background-color: #92a8a7;
   text-align: center;
   display: inline-block;
-}
-.grid-cell:hover {
-  background-color: #454545;
 }
 
 .grid-cell-clicked {
   height: 40px;
   border-radius: 2px;
-  background-color: #c1c1c1;
+  background-color: #aec3c2;
   text-align: center;
   display: inline-block;
 }
-.grid-cell-clicked:hover {
-  background-color: #c1c1c1;
+
+.grid-cell-clickable {
+  height: 40px;
+  border-radius: 2px;
+  background-color: rgba(80, 183, 74, 0.85);
+  text-align: center;
+  display: inline-block;
+}
+.grid-cell-clickable:hover {
+  background-color: rgba(47, 119, 47, 0.85);
 }
 
 .grid-image {
@@ -41,8 +46,19 @@
   padding-top: 10px;
 }
 
+.start-image {
+  height: 50px;
+  margin-top: 20px;
+  float: left;
+}
+
+.end-image {
+  height: 55px;
+  float: right;
+}
+
 :host ::ng-deep .ui-card {
   width: 500px;
-  background: #C0D5D4;
+  background: rgb(192, 213, 212);
   padding: 5px;
 }

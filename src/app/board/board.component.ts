@@ -10,7 +10,6 @@ export class BoardComponent implements OnInit {
 
   boardArray: number[];
   itemArray: string[];
-  tileClickedStatus: boolean[];
   gameOver: boolean;
   gameStatus: string;
 
@@ -27,23 +26,28 @@ export class BoardComponent implements OnInit {
    * Initializes the game board data
    */
   initBoard() {
-    this.boardArray = this.mineService.getMineArray();
-    this.itemArray = new Array(this.mineService.boardSize * this.mineService.boardSize);
-    this.tileClickedStatus = [];
+    this.boardArray = [];
+    this.itemArray = [];
+    for (let i = 0; i < this.mineService.boardSize * this.mineService.boardSize; i++) {
+      this.itemArray[i] = '';
+    }
     this.gameOver = false;
     this.gameStatus = '';
   }
 
   /**
    * Click handler -> uncovers the tile
-   * @param index position of the clicked tile
+   * @param index: position of the clicked tile
    */
   clickTile(index) {
-    // no click allowed if flag is set
+    // no click allowed if flag is set or if game is over
     if (this.itemArray[index] === this.flagIcon || this.gameOver) {
       return false;
     }
-    this.tileClickedStatus[index] = true;
+    // initialize board array on first click (first click must not be a mine)
+    if (this.boardArray.length === 0) {
+      this.boardArray = this.mineService.getMineArray(index);
+    }
 
     // check if a mine was clicked
     if (this.boardArray[index] === -1) {
@@ -59,26 +63,49 @@ export class BoardComponent implements OnInit {
     if (this.boardArray[index] === 0) {
       const neighbors = this.mineService.getNeighbors(index);
       for (let i = 0; i < neighbors.length; i++) {
-        if (!this.tileClickedStatus[neighbors[i]]) {
+        if (this.itemArray[neighbors[i]] === '') {
           this.clickTile(neighbors[i]);
         }
       }
+    }
+    // check if all non-mine-fields are uncovered
+    if (this.checkIfGameIsWon()) {
+      this.gameOver = true;
+      this.gameStatus = 'YOU WON! CONGRATULATIONS :)';
     }
   }
 
   /**
    * Marks/unmarks the tile with a flag, preventing/enabling click events
-   * @param index position of the clicked tile
+   * @param index: position of the clicked tile
    */
   markTile(index) {
+    if (this.gameOver) {
+      return false;
+    }
     const elem = this.itemArray[index];
-    if (elem === undefined || elem === '') {
+    if (elem === '') {
       this.itemArray[index] = this.flagIcon;
     } else if (elem === this.flagIcon) {
       this.itemArray[index] = '';
     }
-    // prevent standard browser reaction to right mouse click:
+    // prevent standard browser reaction to right mouse click
     return false;
+  }
+
+  /**
+   * Checks if all non-mine-fields are uncovered
+   */
+  checkIfGameIsWon(): boolean {
+    for (let i = 0; i < this.boardArray.length; i++) {
+      if (this.boardArray[i] === -1) {
+        continue;
+      }
+      if (this.boardArray[i] !== -1 && this.itemArray[i] === '' ) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }

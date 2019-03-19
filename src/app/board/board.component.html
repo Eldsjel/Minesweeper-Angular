@@ -1,4 +1,4 @@
-<p-card class="board-card" header="Minesweeper" subheader={{gameStatus}} [style]="{width: '500px', background: '#C0D5D4', padding: '5px'}">
+<p-card class="board-card" header="Minesweeper" subheader={{gameStatus}}>
 
   <p-header>
     <img src="assets/banner.png">
@@ -7,7 +7,7 @@
   <div class="game-container">
     <div class="grid-container">
       <div class="grid-cell" *ngFor="let item of itemArray; let i = index"
-           (click)="clickTile(i)" [ngClass]="tileClickedStatus[i] ? 'grid-cell-clicked' : 'grid-cell'" (contextmenu)="markTile(i)" >
+           (click)="clickTile(i)" [ngClass]="itemArray[i] == '' || itemArray[i] == flagIcon  ? 'grid-cell' : 'grid-cell-clicked'" (contextmenu)="markTile(i)" >
         <img class="grid-image" src={{item}}>
       </div>
     </div>
@@ -18,3 +18,10 @@
   </p-footer>
 
 </p-card>
+
+<nav>
+  <a routerLink="/easteregg">
+    <img src="assets/rabbit.png" style="height: 50px">
+  </a>
+</nav>
+

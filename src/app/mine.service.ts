@@ -11,6 +11,10 @@ export class MineService {
   boardSize = 8;
   mineArray: number[];
 
+  /**
+   * Generates a random number between 0 and a given maximum
+   * @param max: maximum value for random number
+   */
   static getRandomNumber(max) {
     return Math.floor(Math.random() * max);
   }
@@ -18,14 +22,14 @@ export class MineService {
   /**
    * Initializes the game data
    */
-  getMineArray(): number[] {
+  getMineArray(indexFirstClick): number[] {
     const length = this.boardSize * this.boardSize;
     this.mineArray = new Array(length);
 
     // set up mines
     for (let i = 0; i < this.numberOfMines; i++) {
       let mineIndex = MineService.getRandomNumber(length);
-      while (this.mineArray[mineIndex] === -1) {
+      while (this.mineArray[mineIndex] === -1 || mineIndex === indexFirstClick) {
         mineIndex = MineService.getRandomNumber(length);
       }
       this.mineArray[mineIndex] = -1;
@@ -42,7 +46,7 @@ export class MineService {
 
   /**
    * Counts the number of mines in the neighborhood of a tile
-   * @param index position of the tile
+   * @param index: position of the tile
    */
   countAdjacentMines(index): number {
     let result = 0;
@@ -57,10 +61,12 @@ export class MineService {
 
   /**
    * Gets all the neighboring tiles for a certain tile
-   * @param index position of the tile
+   * @param index: position of the tile
    */
   getNeighbors(index): number[] {
     const neighbors = [];
+    const upperNeighbor = index - this.boardSize;
+    const lowerNeighbor = index + this.boardSize;
     if (index % this.boardSize !== 0) {
       // left neighbor
       neighbors.push(index - 1);
@@ -69,8 +75,6 @@ export class MineService {
       // right neighbor
       neighbors.push(index + 1);
     }
-    const upperNeighbor = index - this.boardSize;
-    const lowerNeighbor = index + this.boardSize;
     if (upperNeighbor >= 0) {
       // upper neighbor
       neighbors.push(upperNeighbor);
@@ -94,9 +98,6 @@ export class MineService {
         // upper right neighbor
         neighbors.push(lowerNeighbor + 1);
       }
-    }
-    for (let i = 0; i < neighbors.length; i++) {
-      console.log('neighbor index: ' + neighbors[i]);
     }
     return neighbors;
   }
