@@ -1,6 +1,6 @@
 # Minesweeper
 
-![alt text](https://github.com/Eldsjel/Minesweeper-Angular/blob/master/screenshot.PNG)
+<img src="https://github.com/Eldsjel/Minesweeper-Angular/blob/master/screenshot.PNG" width="300">
 
 ## How to set up the game
 
